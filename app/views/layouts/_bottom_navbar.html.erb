@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="#"><%= link_to "News App", root_path, class: "text-danger fw-bold fs-2 font-homemade-apple me-5" %></a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="d-flex w-100">
+        <ul class="navbar-nav me-auto flex-grow-1">
+          <li class="nav-item me-3 w-100">
+            <%= form_with url: "#", method: :get, local: true, class: "d-flex w-100" do |form| %>
+              <%= form.text_field :query, class: "form-control me-2 flex-grow-1", placeholder: "Search news by headline" %>
+              <%= form.submit "Search", class: "btn btn-outline-danger" %>
+            <% end %>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link text-dark fs-6 font-merriweather" href="https://www.youtube.com/channel/UCYPvAwZP8pZhSMW8qs7cVCw" target="_blank" rel="noopener noreferrer">Watch Live News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark fs-6 font-merriweather" href="/magazine.pdf" target="_blank">Monthly Magazine</a>
+          </li>
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "nav-link text-dark fs-6 font-merriweather" %>            
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Edit Profile', edit_user_registration_path, class: "nav-link text-dark fs-6 font-merriweather" %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link text-dark fs-6 font-merriweather" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign In', new_user_session_path, class: "nav-link text-dark fs-6 font-merriweather" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

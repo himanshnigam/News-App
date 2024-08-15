@@ -1,0 +1,49 @@
+<% if @category %>
+  <div class="container">
+    <h2 class="mb-3"><%= @category.name %></h2>
+    <%= link_to "Back to categories", categories_path, class: "btn btn-secondary mb-4" %>
+
+    <% if user_signed_in? && (current_user.has_role?(:editor) || current_user.has_role?(:chief_editor)) %>
+      <% drafts_and_pending_articles = @category.articles.drafts.or(@category.articles.pending_review) %>
+      <% if drafts_and_pending_articles.any? %>
+        <h4 class="mb-3">Drafts and Pending Articles</h4>
+          <%= render partial: 'articles/article_table', locals: { articles: drafts_and_pending_articles, category: @category } %>
+      <% end %>
+
+      <h4 class="mb-3">Published Articles</h4>
+    <% end %>
+
+    <% @category.articles.published.order(created_at: :desc).each do |article| %>
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-9">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to article.title, category_article_path(@category, article), class: "text-decoration-none text-dark" %>
+              </h5>
+              <p class="card-text"><%= truncate(article.content, length: 100) %></p>
+              <p class="card-text">
+                <small class="text-muted">
+                  Published <%= time_ago_in_words(article.created_at) %> ago
+                </small>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <% if article.photo.attached? %>
+              <%= image_tag article.photo, class: "img-fluid rounded-end", style: "object-fit: cover; height: 150px; width: 100%;" %>
+            <% else %>
+              <div class="bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
+                <span class="text-muted">No image</span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+
+

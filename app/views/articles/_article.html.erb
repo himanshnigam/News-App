@@ -1,0 +1,58 @@
+<p>
+    <strong>Title:</strong>
+    <%= article.title %>
+  </p>
+
+  <p>
+    <strong>Content:</strong>
+    <%= article.content %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <%= article.status %>
+  </p>
+
+  <p>
+    <strong>Visitors:</strong>
+    <%= article.visitors %>
+  </p>
+
+  <p>
+    <strong>Category:</strong>
+    <%= article.category.name %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= article.user.email %>
+  </p>
+
+  <p>
+  <strong>Photo:</strong>
+  <% if article.photo.attached? %>
+    <%= image_tag article.photo, width: "200px" %>
+  <% else %>
+    No photo available
+  <% end %>
+ </p>
+
+<p>
+  <strong>Images:</strong>
+  <% if article.images.attached? %>
+    <% article.images.each do |image| %>
+      <%= image_tag image, width: "100px" %>
+    <% end %>
+  <% else %>
+    No image available
+  <% end %>
+</p>
+
+<p>
+    <strong>Video:</strong>
+    <% if @article.video.attached? %>
+      <%= video_tag @article.video, controls: true, size: "300x200" %>
+    <% else %>
+       No video available
+    <% end %>
+</p>

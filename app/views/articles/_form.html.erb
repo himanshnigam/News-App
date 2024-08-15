@@ -1,0 +1,52 @@
+<%= form_with(model: [@category, @article]) do |form| %>
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+  <br>
+
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.select :status, Article.statuses.keys.map { |w| [w.humanize, w] } %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :visitors %>
+    <%= form.number_field :visitors %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :category_id %>
+    <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :name, @article.category_id) %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :photo %>
+    <%= form.file_field :photo %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :images %>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :video %>
+    <%= form.file_field :video %>
+  </div>
+  <br>
+  <div>
+    <% if current_user.has_role?(:editor) %>
+      <%= form.submit 'Save as Draft', name: 'commit' %>
+      <%= form.submit 'Request for Publication', name: 'commit' %>
+    <% elsif current_user.has_role?(:chief_editor) %>
+      <%= form.submit 'Save as Draft', name: 'commit' %>
+      <%= form.submit 'Publish', name: 'commit' %>
+    <% end %>
+  </div>
+<% end %>

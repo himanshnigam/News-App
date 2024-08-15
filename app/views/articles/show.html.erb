@@ -1,0 +1,69 @@
+<div class="container">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to 'Home', root_path, class: "text-info fw-lighter font-roboto fs-6" %></li>
+      <li class="breadcrumb-item"><%= link_to @article.category.name, category_path(@article.category), class: "text-info fw-lighter font-roboto fs-6" %></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= @article.title %></li>
+    </ol>
+  </nav>
+
+  <!-- Title -->
+  <h1 class="mt-3 font-merriweather"><%= @article.title %></h1>
+
+  <!-- Article Photo -->
+  <% if @article.photo.attached? %>
+    <div class="img-container my-3">
+      <%= image_tag @article.photo, class: "img-fluid img-thumbnail mx-auto d-block", alt: "Article Photo", style: "max-height: 300px;" %>
+      <p class="text-center small mt-1 font-merriweather fst-italic"><%= @article.photo.filename %></p>
+    </div>
+  <% else %>
+    <div class="img-container my-3">
+      <p class="font-merriweather fst-italic">No article photo attached</p>
+    </div>
+  <% end %>
+
+  <!-- Created By, Last Edited, and Visitors -->
+  <div class="text-muted small font-merriweather fst-italic">
+    <p>Created By: <%= @article.user.email %></p>
+    <p>Last Edited(IST): <%= @article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+    <p>Visitors: <%= @article.visitors %></p>
+  </div>
+
+  <!-- Main Content -->
+  <% content_lines = @article.content.split("\n") %>
+  <p class="font-roboto"><%= content_lines.slice(0, 2).join(" ") %></p>
+
+  <!-- First Image -->
+  <% if @article.images.any? %>
+    <div class="img-container my-3">
+      <%= image_tag @article.images.first, class: "img-fluid img-thumbnail mx-auto d-block", alt: "Article Image", style: "max-height: 300px;" %>
+      <p class="text-center small mt-1 font-merriweather"><%= @article.images.first.filename %></p>
+    </div>
+  <% end %>
+
+  <!-- More Content -->
+  <p class="font-roboto"><%= content_lines.slice(2, 4).join(" ") %></p>
+
+  <!-- Article Video -->
+  <% if @article.video.attached? %>
+    <div class="video-container my-3">
+      <%= video_tag @article.video, controls: true, class: "mx-auto d-block", alt: "Article Video", style: "max-height: 300px;" %>
+      <p class="text-center small mt-1 font-merriweather"><%= @article.video.filename %></p>
+    </div>
+  <% end %>
+
+  <!-- More Content -->
+  <p class="font-roboto"><%= content_lines.slice(6, 4).join(" ") %></p>
+
+  <!-- Second Image -->
+  <% if @article.images.length > 1 %>
+    <div class="img-container my-3">
+      <%= image_tag @article.images.second, class: "img-fluid img-thumbnail mx-auto d-block", alt: "Article Image", style: "max-height: 300px;" %>
+      <p class="text-center small mt-1 font-merriweather"><%= @article.images.second.filename %></p>
+    </div>
+  <% end %>
+
+  <!-- Remaining Content -->
+  <p class="font-roboto"><%= content_lines.drop(10).join(" ") %></p>
+</div>

@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="#"><%= link_to "Today's Newspaper", "/newspaper.pdf", target: "_blank", class: "text-secondary fw-bold fs-5 font-roboto" %></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <% Category.all.each do |category| %>
+          <li class="nav-item">
+            <%= link_to category.name, category_path(category), class: "nav-link text-dark fs-6 font-merriweather" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,56 @@
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse fixed-start">
+  <div class="position-sticky pt-3 d-flex flex-column h-100">
+    <div class="first-box flex-grow-1">
+      <% if user_signed_in? %>
+        <p>Welcome <%= current_user.email %></p>
+        <% if current_user.has_role?(:chief_editor) || current_user.has_role?(:editor) %>
+          <p>Login time: <%= current_user.current_sign_in_at.strftime("%B %d, %Y %H:%M") if current_user.current_sign_in_at %></p>
+        <% end %>
+      <% else %>
+        <p>Hello Reader</p>
+        <%= link_to "Subscribe", "#", class: "nav-link disabled", tabindex: "-1", "aria-disabled": "true" %>
+      <% end %>
+
+      <ul class="nav flex-column mt-3">
+        <li class="nav-item">
+          <%= link_to "Careers", "#", class: "nav-link disabled", tabindex: "-1", "aria-disabled": "true" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Reports", "#", class: "nav-link disabled", tabindex: "-1", "aria-disabled": "true" %>
+        </li>
+      </ul>
+
+      <% if user_signed_in? %>
+        <% if current_user.has_role?(:chief_editor) %>
+          <%= link_to "Create New Category", new_category_path, class: "nav-link mt-3" %>
+          
+          <% if @category&.persisted? %>
+            <%= link_to "Edit Category", edit_category_path(@category), class: "nav-link" %>
+            <%= link_to "Destroy this category", category_path(@category), method: :delete, data: { turbo_method: :delete }, class: "nav-link" %>
+            <%= link_to "Create New Article", new_category_article_path(@category), class: "nav-link" %>
+          <% end %>
+
+          <% if @article&.persisted? %>
+            <%= link_to "Edit Article", edit_category_article_path(@article.category, @article), class: "nav-link" %>
+            <%= link_to "Destroy this article", category_article_path(@article.category, @article), method: :delete, data: { turbo_method: :delete }, class: "nav-link" %>
+          <% end %>
+        <% elsif current_user.has_role?(:editor) %>
+          <% if @category&.persisted? %>
+            <%= link_to "Create New Article", new_category_article_path(@category), class: "nav-link mt-3" %>
+          <% end %>
+
+          <% if @article&.persisted? && @article.user == current_user %>
+            <%= link_to "Edit Article", edit_category_article_path(@article.category, @article), class: "nav-link" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="second-box mb-3">
+      <%= link_to "https://www.myntra.com", target: "_blank", rel: "noopener noreferrer" do %>
+        <%= image_tag "ad_image.jpg", alt: "Ad Image", class: "img-fluid" %>
+      <% end %>
+    </div>
+  </div>
+</nav>
+

@@ -1,0 +1,34 @@
+<% if articles.any? %>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Title</th>
+        <th>Created By</th>
+        <th>Last Edited</th>
+        <th>Status</th>
+        <th style="width: 200px;">Actions</th> <!-- Adjust the width as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <% articles.each do |article| %>
+        <tr>
+          <td><%= article.title %></td>
+          <td><%= article.user.email %></td>
+          <td><%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          <td><%= article.status %></td>
+          <td class="d-flex justify-content-between">
+            <%= link_to 'Show', [article.category, article], class: "btn btn-sm btn-primary me-1 mb-1" %>
+            <% if can?(:edit, article) %>
+              <%= link_to 'Edit', edit_category_article_path(article.category, article), class: "btn btn-sm btn-primary me-1 mb-1" %>
+            <% end %>
+            <% if can?(:publish, article) %>
+              <%= button_to 'Publish', publish_category_article_path(article), method: :patch, class: "btn btn-sm btn-primary mb-1" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No drafts or pending articles.</p>
+<% end %>
